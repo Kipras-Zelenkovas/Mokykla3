@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { CountriesData } from "../../Interfaces/Datas"
 import { deleteCountry, getCountries } from "../../Utils/Data"
 
@@ -7,10 +7,11 @@ export const Countries = () => {
     
     const [isLoaded, setIsLoaded] = useState<boolean>(false)
     const [countries, setCountries] = useState<CountriesData[]>()
+    const navigate = useNavigate()
 
     useEffect(() => {
         getCountries(setCountries, setIsLoaded)
-    }, [countries])
+    }, [])
 
     if(!isLoaded && countries === undefined){
         return(
@@ -38,7 +39,7 @@ export const Countries = () => {
                                 <td className="p-2 border border-navy">{item.name}</td>
                                 <td className="p-2 border border-navy">{item.ISO}</td>
                                 <td className="p-2 border border-navy"><Link to={'/update/country/?id=' + item.id}>Update</Link></td>
-                                <td className="p-2 border border-navy"><button onClick={() => deleteCountry(item.id)}>Delete</button></td>
+                                <td className="p-2 border border-navy"><button onClick={() => deleteCountry(item.id, navigate)}>Delete</button></td>
                             </tr>
                         )
                     })}

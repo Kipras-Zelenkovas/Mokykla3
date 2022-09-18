@@ -1,6 +1,6 @@
 import axios from "axios"
 import { NavigateFunction } from "react-router-dom"
-import { AirlinesPutPost, AirportPutPost, CountriesPutPost, MapData } from "../Interfaces/Datas"
+import { AirlinesData, AirlinesPutPost, AirportPutPost, CountriesData, CountriesPutPost, MapData } from "../Interfaces/Datas"
 
 const url = 'https://backend2.ddev.site/api'
 const tempUrl = 'http://127.0.0.1:8000/api'
@@ -67,11 +67,15 @@ const getAirports = (setData: Function, setIsLoaded: Function) => {
     })
 }
 
-const getAirlines = (setData: Function, setIsLoaded: Function) => {
+const getAirlines = (setData: Function, setIsLoaded: Function, setCountries: Function) => {
     axios.get(url + '/airline')
     .then((res) => {
-        setIsLoaded(true)
         setData(res.data)
+
+        res.data.forEach((element: AirlinesData) => {
+            getAirlineCountry(element.id, setCountries)
+        })
+        setIsLoaded(true)
     }).catch((err) => {
         console.log(err)
     })
@@ -111,10 +115,11 @@ const updateAirport = (data: AirportPutPost, navigate: NavigateFunction) => {
     })
 }
 
-const deleteAirport = (id: string | null) => {
+const deleteAirport = (id: string | null, navigate: NavigateFunction) => {
     axios.delete(url + '/airport/' + id)
     .then((res) => {
         console.log(res.data)
+        navigate('/airports')
     }).catch((err) => {
         console.log(err)
     })
@@ -141,10 +146,11 @@ const updateAirline = (data: AirlinesPutPost, navigate: NavigateFunction) => {
     })
 }
 
-const deleteAirline = (id: string | null) => {
+const deleteAirline = (id: string | null, navigate: NavigateFunction) => {
     axios.delete(url + '/airline/' + id)
     .then((res) => {
         console.log(res.data)
+        navigate('/airlines')
     }).catch((err) => {
         console.log(err)
     })
@@ -171,10 +177,11 @@ const updateCountry = (data: CountriesPutPost, navigate: NavigateFunction) => {
     })
 }
 
-const deleteCountry = (id: string | null) => {
+const deleteCountry = (id: string | null, navigate: NavigateFunction) => {
     axios.delete(url + '/country/' + id)
     .then((res) => {
         console.log(res.data)
+        navigate('/countries')
     }).catch((err) => {
         console.log(err)
     })
@@ -183,7 +190,7 @@ const deleteCountry = (id: string | null) => {
 const getAirlineCountry = (id: string | null, setCounty: Function) => {
     axios.get(url + '/airline/country/' + id)
     .then((res) => {
-        setCounty(res.data)
+        setCounty((arr: CountriesData[]) => [...arr, res.data])
     }).catch((err) => {
         console.log(err)
     })

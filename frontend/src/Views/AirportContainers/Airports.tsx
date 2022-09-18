@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { AirportsData } from "../../Interfaces/Datas"
 import { deleteAirport, getAirports } from "../../Utils/Data"
 
@@ -7,10 +7,11 @@ export const Airports = () => {
     
     const [isLoaded, setIsLoaded] = useState<boolean>(false)
     const [airports, setAirports] = useState<AirportsData[]>()
+    const navigate = useNavigate()
 
     useEffect(() => {
         getAirports(setAirports, setIsLoaded)
-    }, [airports])
+    }, [])
 
     if(airports === undefined && !isLoaded){
         return(
@@ -38,7 +39,7 @@ export const Airports = () => {
                                 <td className="p-2 border border-navy">{item.name}</td>
                                 <td className="p-2 border border-navy">{item.country}</td>
                                 <td className="p-2 border border-navy"><Link to={'/update/airport/?id=' + item.id}>Update</Link></td>
-                                <td className="p-2 border border-navy"><button onClick={() => deleteAirport(item.id)}>Delete</button></td>
+                                <td className="p-2 border border-navy"><button onClick={() => deleteAirport(item.id, navigate)}>Delete</button></td>
                             </tr>
                         )
                     })}

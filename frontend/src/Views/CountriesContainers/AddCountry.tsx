@@ -1,7 +1,5 @@
 import { Formik } from "formik";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CountriesPutPost } from "../../Interfaces/Datas";
 import { addCountry } from "../../Utils/Data";
 
 export const AddCountry = () => {

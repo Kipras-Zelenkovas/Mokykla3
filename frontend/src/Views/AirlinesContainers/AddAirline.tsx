@@ -1,7 +1,5 @@
 import { Formik } from "formik";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AirlinesPutPost } from "../../Interfaces/Datas";
 import { addAirline } from "../../Utils/Data";
 
 export const AddAirline = () => {
