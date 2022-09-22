@@ -21,12 +21,6 @@ export const Airlines = () => {
         )
     }
 
-    if(countries.length === 0){
-        return(
-            <div>Loading....</div>
-        )
-    }
-
     return(
         <div className="mt-5">
             <table className="w-screen text-left border-navy border-4">
