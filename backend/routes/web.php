@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('user')->group(function () {
-    Route::get('/role', [User::class, 'getRole']);
     Route::post('/register', [User::class, 'register'])->middleware('guest');
     Route::post('/login', [User::class, 'login'])->middleware('guest');
     Route::post('/logout', [User::class, 'logout'])->middleware('auth:sanctum');
+    Route::get('/admin', [User::class, 'isAdmin'])->middleware('auth:sanctum');
 });

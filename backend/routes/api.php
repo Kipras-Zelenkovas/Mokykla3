@@ -56,4 +56,4 @@ Route::prefix('map')->group(function () {
     Route::get('', [MapController::class, 'getAirports']);
 });
 
-//Route::post('/role', [Roles::class, 'create']);
+Route::post('/role', [Roles::class, 'create']);

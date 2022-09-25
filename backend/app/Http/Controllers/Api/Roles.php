@@ -13,7 +13,7 @@ class Roles extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required|min:3|max:12|string'
+                'name' => 'required|min:3|max:15|string'
             ]);
 
             $role = ModelsRoles::create([

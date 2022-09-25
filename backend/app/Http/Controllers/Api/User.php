@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User as ModelsUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class User extends Controller
@@ -71,14 +72,18 @@ class User extends Controller
         }
     }
 
-    public function getRole(Request $request)
+    public function isAdmin()
     {
         try {
-            $user = ModelsUser::find($request->id);
+            if (Gate::allows('isAdmin')) {
+                return response()->json([
+                    'admin' => true
+                ]);
+            }
 
-            return response()->json($user->role, 200);
-        } catch (\Throwable $e) {
-            return response()->json(['Cant get role', $e->getMessage()], 400);
+            return response()->json(false, 403);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 404);
         }
     }
 }

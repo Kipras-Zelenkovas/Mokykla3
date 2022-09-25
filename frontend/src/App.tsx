@@ -12,11 +12,15 @@ import { UpdateCountry } from './Views/CountriesContainers/UpdateCountry';
 import { Navbar } from './Views/NavBar/Navbar';
 import { Map } from './Views/MapContainer/Map';
 import { Login } from './Views/AuthContainers/Login';
+import { isAdmin } from './Utils/Auth';
 
 
 function App() {
 
-  const authenticated = localStorage.getItem('token') ? true : false
+  let authenticated = localStorage.getItem('token') ? true : false
+  let admin = isAdmin()
+
+  console.log("app:" + admin)
 
   return (
     <BrowserRouter>
@@ -24,15 +28,15 @@ function App() {
       <Routes>
         <Route path='/' element={<Map />}/>
         <Route path='/login' element={!authenticated ? <Login /> : <Navigate to="/" />}></Route> 
-        <Route path='/add/airport' element={authenticated ? <AddAirport /> : <Navigate to="/login" />}/>
+        <Route path='/add/airport' element={admin ? <AddAirport /> : <Navigate to="/login" />}/>
         <Route path='/airports' element={<Airports />}/>
-        <Route path='/update/airport' element={authenticated ? <UpdateAirport />: <Navigate to="/login" />}/>
-        <Route path='/add/airline' element={authenticated ? <AddAirline /> : <Navigate to="/login" />}/> 
+        <Route path='/update/airport' element={admin ? <UpdateAirport />: <Navigate to="/login" />}/>
+        <Route path='/add/airline' element={admin ? <AddAirline /> : <Navigate to="/login" />}/> 
         <Route path='/airlines' element={<Airlines />}/>
-        <Route path='/update/airline' element={authenticated ? <UpdateAirline />: <Navigate to="/login" />}/>
-        <Route path='/add/country' element={authenticated ? <AddCountry /> : <Navigate to="/login" />}/> 
+        <Route path='/update/airline' element={admin ? <UpdateAirline />: <Navigate to="/login" />}/>
+        <Route path='/add/country' element={admin ? <AddCountry /> : <Navigate to="/login" />}/> 
         <Route path='/countries' element={<Countries />}/>
-        <Route path='/update/country' element={authenticated ? <UpdateCountry />: <Navigate to="/login" />}/>
+        <Route path='/update/country' element={admin ? <UpdateCountry />: <Navigate to="/login" />}/>
       </Routes>
     </BrowserRouter>
   );

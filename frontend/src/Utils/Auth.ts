@@ -29,17 +29,7 @@ export const login = (data: LoginData, navigate: NavigateFunction) => {
                 headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
             }).then((res) => {
                 localStorage.setItem('user', JSON.stringify(res.data))
-
-                http.get('/user/role', {
-                    params: {
-                       id: res.data.id
-                    }
-                }).then((res) => {
-                    localStorage.setItem('role', res.data.name)
-                    navigate('/')
-                }).catch((err) => {
-                    console.log(err)
-                })
+                navigate('/')
             }).catch((err) => {
                 console.log(err)
             })
@@ -65,4 +55,19 @@ export const logout = (navigate: NavigateFunction) => {
     }).catch((err) => {
         console.log(err)
     })
+}
+
+export const isAdmin = () => {
+    let data
+
+    http.get('/user/admin')
+    .then((res) => {
+        data = res.data.admin
+    }).catch((err) => {
+        data = false
+    })
+
+    console.log(data)
+
+    return data
 }
