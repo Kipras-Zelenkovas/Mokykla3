@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../Utils/Auth";
 import { http } from "../../Utils/HttpLinks";
 
-export const Login = () => {
+export const Login = ({setAuth}:any) => {
 
     const navigate = useNavigate()
 
@@ -14,7 +14,7 @@ export const Login = () => {
                 password: '',
             }}
             onSubmit={(values) => {
-                login(values, navigate)
+                login(values, navigate, setAuth)
             }}
 
         >

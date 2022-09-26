@@ -1,13 +1,13 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { AdminData } from "../../Interfaces/AuthDatas"
 import { isAdmin, logout } from "../../Utils/Auth"
 
-export const Navbar = () => {
+export const Navbar = ({admin, auth, setAuth}:any) => {
 
     const navigate = useNavigate()
 
-    let authenticated = localStorage.getItem('token') ? true : false
-    let admin = isAdmin()
+    //auth not gettin and no logout
 
     return(
         <div className="bg-smoked shadow-md shadow-navy">
@@ -25,10 +25,10 @@ export const Navbar = () => {
                 {admin ? 
                 <Link className="shadow-none shadow-sm text-center rounded-lg px-5 py-2 text-white font-medium hover:bg-white hover:text-smoked" to={'/add/country'}>Add county</Link>
                 : ''}
-                {authenticated ? 
+                {auth ? 
                 <button className="shadow-none shadow-sm text-center rounded-lg px-5 py-2 text-white font-medium hover:bg-white hover:text-smoked"
-                    onClick={() => logout(navigate)}> Logout</button> : ''}
-                {!authenticated ?
+                    onClick={() => logout(navigate, setAuth)}> Logout</button> : ''}
+                {!auth ?
                 <button className="shadow-none shadow-sm text-center rounded-lg px-5 py-2 text-white font-medium hover:bg-white hover:text-smoked"
                     onClick={() => navigate('/login')}> Login</button> : ''
                 }

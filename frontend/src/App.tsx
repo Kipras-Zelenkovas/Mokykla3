@@ -13,21 +13,35 @@ import { Navbar } from './Views/NavBar/Navbar';
 import { Map } from './Views/MapContainer/Map';
 import { Login } from './Views/AuthContainers/Login';
 import { isAdmin } from './Utils/Auth';
+import { useEffect, useState } from 'react';
 
 
 function App() {
 
-  let authenticated = localStorage.getItem('token') ? true : false
-  let admin = isAdmin()
+  const [auth, setAuth] = useState(false)
+  const [admin, setAdmin] = useState<boolean>(false)
+  const [loaded, setLoaded] = useState(undefined)
 
-  console.log("app:" + admin)
+  useEffect(() => {
+    async function adminCheck() {
+      const res = await isAdmin()
+      setAdmin(res)
+    }
+    adminCheck()
+  }, [auth])
+
+  if(admin === undefined){
+    return(
+      <div>Loading...</div>
+    )
+  }
 
   return (
     <BrowserRouter>
-      <Navbar />
+      <Navbar admin={admin} auth={auth} setAuth={setAuth}/>
       <Routes>
         <Route path='/' element={<Map />}/>
-        <Route path='/login' element={!authenticated ? <Login /> : <Navigate to="/" />}></Route> 
+        <Route path='/login' element={!auth ? <Login setAuth={setAuth}/> : <Navigate to="/" />}></Route> 
         <Route path='/add/airport' element={admin ? <AddAirport /> : <Navigate to="/login" />}/>
         <Route path='/airports' element={<Airports />}/>
         <Route path='/update/airport' element={admin ? <UpdateAirport />: <Navigate to="/login" />}/>
