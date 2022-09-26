@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { AdminData } from "../../Interfaces/AuthDatas"
 import { isAdmin, logout } from "../../Utils/Auth"
 
-export const Navbar = ({admin, auth, setAuth}:any) => {
+export const Navbar = ({admin, auth, setAuth, setAdmin}:any) => {
 
     const navigate = useNavigate()
 
@@ -27,7 +27,7 @@ export const Navbar = ({admin, auth, setAuth}:any) => {
                 : ''}
                 {auth ? 
                 <button className="shadow-none shadow-sm text-center rounded-lg px-5 py-2 text-white font-medium hover:bg-white hover:text-smoked"
-                    onClick={() => logout(navigate, setAuth)}> Logout</button> : ''}
+                    onClick={() => logout(navigate, setAuth, setAdmin)}> Logout</button> : ''}
                 {!auth ?
                 <button className="shadow-none shadow-sm text-center rounded-lg px-5 py-2 text-white font-medium hover:bg-white hover:text-smoked"
                     onClick={() => navigate('/login')}> Login</button> : ''

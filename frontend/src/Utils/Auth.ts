@@ -43,7 +43,7 @@ export const login = (data: LoginData, navigate: NavigateFunction, setAuth: Func
     })
 }
 
-export const logout = (navigate: NavigateFunction, setAuth: Function) => {
+export const logout = (navigate: NavigateFunction, setAuth: Function, setAdmin: Function) => {
     http.post('/user/logout', {}, {
         headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
     }).then((res) => {
@@ -51,6 +51,7 @@ export const logout = (navigate: NavigateFunction, setAuth: Function) => {
         localStorage.removeItem('user')
         localStorage.removeItem('role')
         setAuth(false)
+        setAdmin(false)
 
         console.log(res.data)
 
@@ -61,25 +62,17 @@ export const logout = (navigate: NavigateFunction, setAuth: Function) => {
 }
 
 export const isAdmin = async () => {
-    
-    // let x = (async () => {
-    //     let data = 'a';
-    //     await http.get('/user/admin')
-    //         .then((res) => {
-    //             data = res.data;
-    //             console.log(res.data);
-    //             return res.data.admin
-    //         }).catch((err) => {
-    //             console.log(err);
-    //             return false
-    //         })
-    //     console.log(data);
-    //     return data;
-    // })().then((res) => {
-    //     console.log('pisk', res);
-    // });
-    // console.log('x', x);
-    console.log('isAdmin called')
     const res = await http.get('/user/admin')
+    if(res.data.message === 'Unauthenticated'){
+        return false
+    }
     return res.data.admin;
+}
+
+export const isLogged = async () => {
+    const res = await http.get('/user/logged')
+    if(res.data.message === 'Unauthenticated'){
+        return false
+    }
+    return res.data.logged
 }

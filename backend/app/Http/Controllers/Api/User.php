@@ -81,9 +81,27 @@ class User extends Controller
                 ]);
             }
 
-            return response()->json(false, 403);
+            return response()->json([
+                'admin' => false
+            ], 403);
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 404);
+        }
+    }
+
+    public function isLogged(){
+        try {
+            if(Auth::check()){
+                return response()->json([
+                    'logged'    => true
+                ]);
+            }
+
+            return response()->json([
+                'logged'    => false
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 401);
         }
     }
 }

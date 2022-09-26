@@ -19,4 +19,5 @@ Route::prefix('user')->group(function () {
     Route::post('/login', [User::class, 'login'])->middleware('guest');
     Route::post('/logout', [User::class, 'logout'])->middleware('auth:sanctum');
     Route::get('/admin', [User::class, 'isAdmin'])->middleware('auth:sanctum');
+    Route::get('/logged', [User::class, 'isLogged']);
 });
