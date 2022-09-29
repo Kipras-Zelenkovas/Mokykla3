@@ -23,6 +23,8 @@ const addAirport = (data: AirportPutPost, navigate: NavigateFunction) => {
         latitude: data.latitude,
         longitude: data.longitude,
         airlines: data.airlines
+    },{
+        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
     }).then((res) => {
         console.log(res.data)
         navigate('/airports')
@@ -35,6 +37,8 @@ const addAirline = (data: AirlinesPutPost, navigate: NavigateFunction) => {
     api.post('/airline', {
         name: data.name,
         countries_id: data.countries_id
+    },{
+        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
     }).then((res) => {
         console.log(res.data)
         navigate('/airlines')
@@ -47,6 +51,8 @@ const addCountry = (data: CountriesPutPost, navigate: NavigateFunction) => {
     api.post('/country', {
         name: data.name,
         ISO: data.ISO
+    },{
+        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
     }).then((res) => {
         console.log(res.data)
         navigate('/countries')
@@ -105,6 +111,8 @@ const updateAirport = (data: AirportPutPost, navigate: NavigateFunction) => {
         latitude: data.latitude,
         longitude: data.longitude,
         airlines: data.airlines
+    },{
+        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
     }).then((res) => {
         console.log(res.data)
         navigate('/airports')
@@ -114,7 +122,9 @@ const updateAirport = (data: AirportPutPost, navigate: NavigateFunction) => {
 }
 
 const deleteAirport = (id: string | null, navigate: NavigateFunction) => {
-    api.delete('/airport/' + id)
+    api.delete('/airport/' + id,{
+        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+    })
     .then((res) => {
         console.log(res.data)
         navigate('/airports')
@@ -136,6 +146,8 @@ const updateAirline = (data: AirlinesPutPost, navigate: NavigateFunction) => {
     api.put('/airline/' + data.id, {
         name: data.name,
         countries_id: data.countries_id,
+    },{
+        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
     }).then((res) => {
         console.log(res.data)
         navigate('/airlines')
@@ -145,7 +157,9 @@ const updateAirline = (data: AirlinesPutPost, navigate: NavigateFunction) => {
 }
 
 const deleteAirline = (id: string | null, navigate: NavigateFunction) => {
-    api.delete('/airline/' + id)
+    api.delete('/airline/' + id,{
+        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+    })
     .then((res) => {
         console.log(res.data)
         navigate('/airlines')
@@ -167,6 +181,8 @@ const updateCountry = (data: CountriesPutPost, navigate: NavigateFunction) => {
     api.put('/country/' + data.id, {
         name: data.name,
         ISO: data.ISO,
+    },{
+        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
     }).then((res) => {
         console.log(res.data)
         navigate('/countries')
@@ -176,7 +192,9 @@ const updateCountry = (data: CountriesPutPost, navigate: NavigateFunction) => {
 }
 
 const deleteCountry = (id: string | null, navigate: NavigateFunction) => {
-    api.delete('/country/' + id)
+    api.delete('/country/' + id,{
+        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+    })
     .then((res) => {
         console.log(res.data)
         navigate('/countries')

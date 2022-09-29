@@ -25,13 +25,11 @@ function App() {
     async function adminCheck() {
       const res = await isAdmin()
       setAdmin(res)
-      console.log('vvvv', res)
     }
 
     async function loggedCheck(){
       const res = await isLogged()
       setAuth(res)
-      console.log('aaaa', res)
     }
 
     loggedCheck()

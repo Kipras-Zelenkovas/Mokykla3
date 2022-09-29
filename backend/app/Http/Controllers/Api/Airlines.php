@@ -25,7 +25,7 @@ class Airlines extends Controller
 
             return response()->json('Ok', 200);
         } catch (\Throwable $e) {
-            return response()->json(['Cant create', $e], 400);
+            return response()->json(['Cant create', $e->getMessage()], 400);
         }
     }
 
