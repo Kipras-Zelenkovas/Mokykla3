@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { AirportsData } from "../../Interfaces/Datas"
+import { AirlinesData, AirportsData } from "../../Interfaces/Datas"
 import { deleteAirport, getAirports } from "../../Utils/Data"
 
 export const Airports = () => {
     
     const [isLoaded, setIsLoaded] = useState<boolean>(false)
-    const [airports, setAirports] = useState<AirportsData[]>()
+    const [airports, setAirports] = useState<AirportsData[]>([])
+    const [airlines, setAirlines] = useState<AirlinesData[][]>([])
     const navigate = useNavigate()
 
     useEffect(() => {
-        getAirports(setAirports, setIsLoaded)
+        getAirports(setAirports, setIsLoaded, setAirlines)
     }, [])
 
-    if(airports === undefined && !isLoaded){
+    if(airports.length === 0 || !isLoaded || airlines.length === 0){
         return(
             <div>Loading....</div>
         )
@@ -27,6 +28,7 @@ export const Airports = () => {
                         <th className="p-2 border border-navy">#</th>
                         <th className="p-2 border border-navy">Name</th>
                         <th className="p-2 border border-navy">Country</th>
+                        <th className="p-2 border border-navy">Airlines</th>
                         <th className="p-2 border border-navy"></th>
                         <th className="p-2 border border-navy"></th>
                     </tr>   
@@ -38,6 +40,11 @@ export const Airports = () => {
                                 <td className="p-2 border border-navy">{index+1}</td>
                                 <td className="p-2 border border-navy">{item.name}</td>
                                 <td className="p-2 border border-navy">{item.country}</td>
+                                <td className="p-2 border border-navy">{
+                                    airlines[index]?.map((item) => {
+                                        return <p>{item.name}</p>
+                                    })
+                                }</td>
                                 <td className="p-2 border border-navy"><Link to={'/update/airport/?id=' + item.id}>Update</Link></td>
                                 <td className="p-2 border border-navy"><button onClick={() => deleteAirport(item.id, navigate)}>Delete</button></td>
                             </tr>

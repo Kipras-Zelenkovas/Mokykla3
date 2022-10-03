@@ -49,7 +49,12 @@ export const AddAirline = () => {
                     <div className="block">
                         <label htmlFor="countries_id">Countries id:</label>
                         
-                        <select className="text-smoked" name="countries_id" id="countries_id" onChange={props.handleChange}>
+                        <select className="
+                            invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500
+                            text-smoked border-2 border-navy p-1 m-2 focus:outline-none" 
+                            name="countries_id" id="countries_id" onChange={props.handleChange}
+                        >
+                            <option value="" className="text-smoked" selected disabled hidden>Choose here</option>
                             {countries?.map((item, index) => {
                                 return <option className="text-smoked" value={item.id}>{item.name}</option>
                             })}

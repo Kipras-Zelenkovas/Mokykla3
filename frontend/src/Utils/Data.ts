@@ -1,6 +1,6 @@
 import axios from "axios"
 import { NavigateFunction } from "react-router-dom"
-import { AirlinesData, AirlinesPutPost, AirportPutPost, CountriesData, CountriesPutPost, MapData } from "../Interfaces/Datas"
+import { AirlinesData, AirlinesPutPost, AirportPutPost, AirportsData, CountriesData, CountriesPutPost, MapData } from "../Interfaces/Datas"
 import { api } from "./HttpLinks"
 
 const getAirportsByMap = (setData: Function, position: MapData | undefined) => {
@@ -61,44 +61,56 @@ const addCountry = (data: CountriesPutPost, navigate: NavigateFunction) => {
     })
 }
 
-const getAirports = (setData: Function, setIsLoaded: Function) => {
+const getAirports = (setData: Function, setIsLoaded: Function, setAirlines?: Function) => {
     api.get('/airport')
     .then((res) => {
-        setIsLoaded(true)
         setData(res.data)
+        if(setAirlines){
+            res.data.forEach((element: AirportsData) => {
+                getAiportAirlines(element.id, setAirlines, setIsLoaded)
+            })
+        }else{
+            setIsLoaded(true)
+        }
     }).catch((err) => {
         console.log(err)
     })
 }
 
-const getAirlines = (setData: Function, setIsLoaded: Function, setCountries: Function) => {
+const getAirlines = (setData: Function, setIsLoaded: Function, setCountries?: Function) => {
     api.get('/airline')
     .then((res) => {
         setData(res.data)
 
-        res.data.forEach((element: AirlinesData) => {
-            getAirlineCountry(element.id, setCountries)
-        })
-        setIsLoaded(true)
+        if(setCountries){
+            res.data.forEach((element: AirlinesData) => {
+                getAirlineCountry(element.id, setCountries, setIsLoaded)
+            })
+        }else{
+            setIsLoaded(true)
+        }
     }).catch((err) => {
         console.log(err)
     })
 }
 
-const getCountries = (setData: Function, setIsLoaded: Function) => {
+const getCountries = (setData: Function, setLoaded: Function) => {
     api.get('/country')
     .then((res) => {
-        setIsLoaded(true)
+        setLoaded(true)
         setData(res.data)
     }).catch((err) => {
         console.log(err)
     })
 }
 
-const getAirport = (id: string | null, setData: Function) => {
+const getAirport = (id: string | null, setData: Function, setAirlines?: Function, setIsLoaded?: Function) => {
     api.get('/airport/' + id)
     .then((res) => {
         setData(res.data)
+        /*if(setAirlines && setIsLoaded){
+            getAiportAirlines(id, setAirlines, setIsLoaded)
+        }*/
     }).catch((err) => {
         console.log(err)
     })
@@ -203,10 +215,21 @@ const deleteCountry = (id: string | null, navigate: NavigateFunction) => {
     })
 }
 
-const getAirlineCountry = (id: string | null, setCounty: Function) => {
+const getAirlineCountry = (id: string | null, setCounty: Function, setIsLoaded: Function) => {
     api.get('/airline/country/' + id)
     .then((res) => {
         setCounty((arr: CountriesData[]) => [...arr, res.data])
+        setIsLoaded(true)
+    }).catch((err) => {
+        console.log(err)
+    })
+}
+
+const getAiportAirlines = (id: string | null, setAirlines: Function, setIsLoaded: Function) => {
+    api.get('/airport/airlines/' + id)
+    .then((res) => {
+        setAirlines((arr: AirlinesData[]) => [...arr, res.data])
+        setIsLoaded(true)
     }).catch((err) => {
         console.log(err)
     })
@@ -216,4 +239,4 @@ export {getAirportsByMap, addAirport, addAirline,
         addCountry, getAirports, getAirlines, 
         getCountries, getAirport, updateAirport, deleteAirport,
         getAirline, updateAirline, deleteAirline, getCountry,
-        updateCountry, deleteCountry, getAirlineCountry}
+        updateCountry, deleteCountry, getAirlineCountry, getAiportAirlines}

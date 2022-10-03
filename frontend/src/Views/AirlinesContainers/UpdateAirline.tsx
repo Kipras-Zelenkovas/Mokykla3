@@ -1,21 +1,24 @@
 import { Formik } from "formik"
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { AirlinesPutPost } from "../../Interfaces/Datas"
-import { getAirline, updateAirline } from "../../Utils/Data"
+import { AirlinesPutPost, CountriesData } from "../../Interfaces/Datas"
+import { getAirline, getCountries, updateAirline } from "../../Utils/Data"
 
 export const UpdateAirline = () => {
     
-    const [data, setData] = useState<AirlinesPutPost>()
+    const [data, setData] = useState<AirlinesPutPost | undefined>(undefined)
+    const [countries, setCountries] = useState<CountriesData[]>([])
+    const [loaded, setLoaded] = useState<boolean>(false)
     const { search } = useLocation()
     const navigate = useNavigate()
 
     useEffect(() => {
         const searchParams = new URLSearchParams(search)
         getAirline(searchParams.get('id'), setData)
+        getCountries(setCountries, setLoaded)
     }, [search])
 
-    if(data === undefined){
+    if(data === undefined || countries.length === 0 || loaded === false){
         return(
             <div>Loading....</div>
         )
@@ -50,14 +53,18 @@ export const UpdateAirline = () => {
                     </div>
                     <div className="block">
                         <label htmlFor="countries_id">Countries id:</label>
-                        <input type="text"
-                            name="countries_id"
-                            id="countries_id"
-                            onChange={props.handleChange}
-                            value={props.values.countries_id}
-                            className="invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500
-                                        text-smoked border-2 border-navy p-1 m-2 focus:outline-none"
-                        />
+                        <select className="
+                            invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500
+                            text-smoked border-2 border-navy p-1 m-2 focus:outline-none" 
+                            name="countries_id" id="countries_id" onChange={props.handleChange}
+                        >
+                            {countries?.map((item, index) => {
+                                if(item.id === data.countries_id){
+                                    return <option className="text-smoked" selected key={index} value={item.id}>{item.name}</option>
+                                }
+                                return <option className="text-smoked" key={index} value={item.id}>{item.name}</option>
+                            })}
+                        </select>
                     </div>
                     <div className="flex w-full">
                         <button type="submit" className="bg-white border-2 border-navy text-smoked p-1 m-2 justify-end">Submit</button>

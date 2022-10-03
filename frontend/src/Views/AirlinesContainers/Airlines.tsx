@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { AirlinesData, CountriesData } from "../../Interfaces/Datas"
-import { deleteAirline, getAirlineCountry, getAirlines } from "../../Utils/Data"
+import { deleteAirline, getAirlines } from "../../Utils/Data"
 
 export const Airlines = () => {
     
@@ -12,10 +12,10 @@ export const Airlines = () => {
 
     useEffect(() => {
         getAirlines(setAirlines, setIsLoaded, setCountries)
-        console.log(countries)
+        
     }, [])
 
-    if(!isLoaded && airlines.length === 0){
+    if(!isLoaded || airlines.length === 0 || countries.length === 0){
         return(
             <div>Loading.....</div>
         )
@@ -39,7 +39,7 @@ export const Airlines = () => {
                             <tr key={index} className="text-white text-center">
                                 <td className="p-2 border border-navy">{index+1}</td>
                                 <td className="p-2 border border-navy">{item.name}</td>
-                                <td className="p-2 border border-navy">{countries[index].name}</td>
+                                <td className="p-2 border border-navy">{countries[index]?.name}</td>
                                 <td className="p-2 border border-navy"><Link to={'/update/airline/?id=' + item.id}>Update</Link></td>
                                 <td className="p-2 border border-navy"><button onClick={() => deleteAirline(item.id, navigate)}>Delete</button></td>
                             </tr>

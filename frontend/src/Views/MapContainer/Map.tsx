@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet'
+import { MapContainer, TileLayer } from 'react-leaflet'
 import { AirportsData } from '../../Interfaces/Datas';
 import { getAirportsByMap } from '../../Utils/Data';
 import { MapLocation } from './MapLocation'

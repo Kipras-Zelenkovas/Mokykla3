@@ -31,13 +31,11 @@ class Airports extends Controller
 
             $airport->save();
 
-            $airlines = explode(', ', $request->airlines);
-
-            $airport->airlines()->sync($airlines);
+            $airport->airlines()->sync($request->airlines);
 
             return response()->json('Ok', 201);
         } catch (\Throwable $e) {
-            return response()->json(['Not ok', $e], 400);
+            return response()->json(['Not ok', $e->getMessage()], 400);
         }
     }
 
@@ -61,13 +59,11 @@ class Airports extends Controller
 
             $airport->save();
 
-            $airlines = explode(', ', $request->airlines);
-
-            $airport->airlines()->sync($airlines);
+            $airport->airlines()->sync($request->airlines);
 
             return response()->json('ok', 201);
         } catch (\Throwable $e) {
-            return response()->json(['Cant update', $e], 402);
+            return response()->json(['Cant update', $e->getMessage()], 402);
         }
     }
 

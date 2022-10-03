@@ -13,7 +13,7 @@ export const Countries = () => {
         getCountries(setCountries, setIsLoaded)
     }, [])
 
-    if(!isLoaded && countries === undefined){
+    if(!isLoaded || countries === undefined){
         return(
             <div>Loading.....</div>
         )
