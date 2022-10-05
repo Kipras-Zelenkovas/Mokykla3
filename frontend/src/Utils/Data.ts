@@ -29,6 +29,9 @@ const addAirport = (data: AirportPutPost, navigate: NavigateFunction) => {
         console.log(res.data)
         navigate('/airports')
     }).catch((err) => {
+        if(err.response.status === 402){
+            console.log(err.response.data.message)
+        }
         console.log(err)
     })
 }
@@ -40,9 +43,11 @@ const addAirline = (data: AirlinesPutPost, navigate: NavigateFunction) => {
     },{
         headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
     }).then((res) => {
-        console.log(res.data)
         navigate('/airlines')
     }).catch((err) => {
+        if(err.response.status === 402){
+            console.log(err.response.data.message)
+        }
         console.log(err)
     })
 }
@@ -66,9 +71,13 @@ const getAirports = (setData: Function, setIsLoaded: Function, setAirlines?: Fun
     .then((res) => {
         setData(res.data)
         if(setAirlines){
-            res.data.forEach((element: AirportsData) => {
-                getAiportAirlines(element.id, setAirlines, setIsLoaded)
-            })
+            if(res.data.length === 0){
+                setIsLoaded(true)
+            }else{
+                res.data.forEach((element: AirportsData) => {
+                    getAiportAirlines(element.id, setAirlines, setIsLoaded)
+                })
+            }
         }else{
             setIsLoaded(true)
         }

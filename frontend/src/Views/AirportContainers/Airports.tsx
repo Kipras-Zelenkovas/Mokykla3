@@ -14,7 +14,7 @@ export const Airports = () => {
         getAirports(setAirports, setIsLoaded, setAirlines)
     }, [])
 
-    if(airports.length === 0 || !isLoaded || airlines.length === 0){
+    if(!isLoaded){
         return(
             <div>Loading....</div>
         )

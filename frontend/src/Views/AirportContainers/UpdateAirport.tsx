@@ -100,6 +100,7 @@ export const UpdateAirport = () => {
                             text-smoked border-2 border-navy p-1 m-2 focus:outline-none" 
                             name="airlines" id="airlines" onChange={props.handleChange} multiple
                         >
+                            <option value="" className="text-smoked" selected disabled hidden>Choose here</option>
                             {airlines?.map((item, index) => {
                                 return <option key={index} value={item.id}>{item.name}</option>
                             })}

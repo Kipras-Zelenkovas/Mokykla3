@@ -58,10 +58,8 @@ export const UpdateAirline = () => {
                             text-smoked border-2 border-navy p-1 m-2 focus:outline-none" 
                             name="countries_id" id="countries_id" onChange={props.handleChange}
                         >
+                            <option value="" className="text-smoked" selected disabled hidden>Choose here</option>
                             {countries?.map((item, index) => {
-                                if(item.id === data.countries_id){
-                                    return <option className="text-smoked" selected key={index} value={item.id}>{item.name}</option>
-                                }
                                 return <option className="text-smoked" key={index} value={item.id}>{item.name}</option>
                             })}
                         </select>

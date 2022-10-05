@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/test/{id}', [Countries::class, 'checkForCountry']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

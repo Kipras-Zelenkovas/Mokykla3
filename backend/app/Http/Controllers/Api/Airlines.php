@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Airlines as ModelsAirlines;
+use App\Models\Countries;
 use Illuminate\Http\Request;
 
 class Airlines extends Controller
@@ -15,6 +16,13 @@ class Airlines extends Controller
                 'name'          => 'required|string|min:6|max:30',
                 'countries_id'  => 'required|string',
             ]);
+
+            if(!Countries::where('id', $request->countries_id)->exists()){
+                return response()->json([
+                    'message'   => 'Country not found',
+                    'code'      => 402,
+                ], 402);
+            }
 
             $airline = ModelsAirlines::create([
                 'name'          => $request->name,
@@ -106,4 +114,6 @@ class Airlines extends Controller
             return response()->json(['Cant delete content', $e], 500);
         }
     }
+
+    
 }

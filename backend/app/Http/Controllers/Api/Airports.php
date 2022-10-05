@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Airlines;
 use App\Models\Airports as ModelsAirports;
+use App\Models\Countries;
 use Illuminate\Http\Request;
 
 class Airports extends Controller
@@ -11,9 +13,7 @@ class Airports extends Controller
 
     public function create(Request $request)
     {
-
         try {
-
             $request->validate([
                 'name'      => 'required|string|min:6|max:30',
                 'country'   => 'required|string|min:3|max:30',
@@ -21,6 +21,19 @@ class Airports extends Controller
                 'longitude' => 'required|string|min:4|max:10',
                 'airlines'  => 'required|min:1'
             ]);
+
+            if(!Airlines::whereIn('id', $request->airlines)->exists()){
+                return response()->json([
+                    'message'   => 'Airline not found',
+                    'code'      => 402
+                ], 402);
+            }
+            if(!Countries::where('name', $request->country)->exists()){
+                return response()->json([
+                    'message'   => 'Country not found',
+                    'code'      => 402
+                ], 402);
+            }
 
             $airport = ModelsAirports::create([
                 'name'      => $request->name,

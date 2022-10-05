@@ -16,7 +16,7 @@ export const AddAirport = () => {
         getCountries(setCountries, setLoaded)
     }, [])
 
-    if(!loaded || airlines.length === 0 || countries.length === 0){
+    if(!loaded){
         return(
             <div>
                 Loading....
